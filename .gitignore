@@ -1,0 +1,5 @@
+blinky.bin
+blinky.elf
+src/main-gpt
+stlink/
+bin/
