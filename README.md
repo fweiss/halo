@@ -34,12 +34,13 @@ Chip id is ``0x0419``. See ``st-info --chipid``
 > Copy stlink/config directory.
 
 On Windows, flash as follows:
-```cd stlink/bin
-st-flash write ../../blinky.bin 0x8000000
+```
+cd stlink/bin
+st-flash write ../../blinky.bin 0x08000000
 ```
 
 ## Flash loader run error
-``st-flash write ../../blinky.bin 0x8000000``
+``st-flash write ../../blinky.bin 0x08000000``
 
 - leds flash
 - erase: OK
@@ -67,3 +68,4 @@ https://www.st.com/resource/en/user_manual/um1974-stm32-nucleo144-boards-mb1137-
 
 [connecting to USB devices from WSL](https://devblogs.microsoft.com/commandline/connecting-usb-devices-to-wsl/)
 
+[Bare metal programming guide](https://github.com/cpq/bare-metal-programming-guide)

@@ -1,46 +1,25 @@
-ENTRY(Reset_Handler)
-
-MEMORY
-{
-  FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 2048K
-  RAM   (rwx) : ORIGIN = 0x20000000, LENGTH = 256K
+ENTRY(Reset_Handler);
+MEMORY {
+  flash(rx)  : ORIGIN = 0x08000000, LENGTH = 2048k
+  sram(rwx) : ORIGIN = 0x20000000, LENGTH = 192k  /* remaining 64k in a separate address space */
 }
+_estack     = ORIGIN(sram) + LENGTH(sram);    /* stack points to end of SRAM */
 
-_estack = ORIGIN(RAM) + LENGTH(RAM);  /* Top of stack */
+SECTIONS {
+  .vectors  : { KEEP(*(.isr_vector)) }   > flash
+  .text     : { *(.text*) }              > flash
+  .rodata   : { *(.rodata*) }            > flash
 
-SECTIONS
-{
-  .isr_vector :
-  {
-    KEEP(*(.isr_vector))
-  } > FLASH
-
-  .text :
-  {
-    *(.text*)
-    *(.rodata*)
-    KEEP(*(.init))
-    KEEP(*(.fini))
-  } > FLASH
-
-  /* Initialized data: copied from flash to RAM */
-  _sidata = LOADADDR(.data);
-  .data : AT (_sidata)
-  {
+  .data : {
     _sdata = .;
-    *(.data*)
+    *(.first_data)
+    *(.data SORT(.data.*))
     _edata = .;
-  } > RAM
+  } > sram AT > flash
+  _sidata = LOADADDR(.data);
 
-  /* Zero-initialized data */
-  .bss :
-  {
-    _sbss = .;
-    *(.bss*)
-    *(COMMON)
-    _ebss = .;
-  } > RAM
+  .bss : { _sbss = .; *(.bss SORT(.bss.*) COMMON) _ebss = .; } > sram
 
-  . = ALIGN(4);
+  . = ALIGN(8);
   _end = .;
 }
