@@ -51,7 +51,16 @@ GPIOA5
 
 On Windows: ``cd stlink/bin``, then ``st-flash write ../../blinky.bin 0x8000000``
 
+> LD2 (blue) stays off when board is reset. Only upload makes it work.
+
 ## Links and references
 https://www.st.com/resource/en/user_manual/um1974-stm32-nucleo144-boards-mb1137-stmicroelectronics.pdf
 
+[Cortex M4 Programming Manual](https://www.st.com/resource/en/programming_manual/pm0214-stm32-cortexm4-mcus-and-mpus-programming-manual-stmicroelectronics.pdf)
+
+[Perpherals Programming Manual](https://www.st.com/resource/en/reference_manual/dm00031020-stm32f405-415-stm32f407-417-stm32f427-437-and-stm32f429-439-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf)
+
+[stlink github repo](https://github.com/stlink-org/stlink)
+
+[connecting to USB devices from WSL](https://devblogs.microsoft.com/commandline/connecting-usb-devices-to-wsl/)
 
