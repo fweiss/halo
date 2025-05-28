@@ -1,3 +1,7 @@
+## f429-bare
+Explore bare metal Nucleo F429ZI
+
+## Setup on WSL
 ``wsl -d cortex``
 ``sudo apt install gcc-arm-none-eabi``
 ``arm-none-eabi-gcc (15:13.2.rel1-2) 13.2.1 20231009``
@@ -9,13 +13,15 @@ arm-none-eabi-objcopy -O binary blinky.elf blinky.bin
 st-flash write blinky.bin 0x8000000
 ```
 
-> ``undefined reference to `NMI_Handler'``
+> stlink doesn's work on WSL: ``WARN usb.c: Couldn't find any ST-Link devices``.
+> There are ways to e get it to work, but for now,
+> just use stlink on Windows.
 
-> ``WARN usb.c: Couldn't find any ST-Link devices``
-
-## st-link on windows
-- download from stlink.org
+## stlink on Windows
+- download stlink
 - unzip
+- copy and rename to stlink
+- copy config to program files
 
 > libusb-1.0.dll not found
 > put it in bin along with st-flash
@@ -24,10 +30,15 @@ st-flash write blinky.bin 0x8000000
 
 Chip id is ``0x0419``. See ``st-info --chipid``
 
-## ``C:/Program Files (x86)/stlink/config/chips: No such file or directory``
+>``C:/Program Files (x86)/stlink/config/chips: No such file or directory``
 > Copy stlink/config directory.
 
-## Falsh loader run error
+On Windows, flash as follows:
+```cd stlink/bin
+st-flash write ../../blinky.bin 0x8000000
+```
+
+## Flash loader run error
 ``st-flash write ../../blinky.bin 0x8000000``
 
 - leds flash
@@ -42,14 +53,6 @@ Chip id is ``0x0419``. See ``st-info --chipid``
 > Code used LED_PIN 5
 
 GPIOA5
-
-## New flash
-- download stlink
-- unzip
-- copy and rename to stlink
-- copy config to program files
-
-On Windows: ``cd stlink/bin``, then ``st-flash write ../../blinky.bin 0x8000000``
 
 > LD2 (blue) stays off when board is reset. Only upload makes it work.
 
