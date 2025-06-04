@@ -3,3 +3,4 @@ blinky.elf
 src/main-gpt
 stlink/
 bin/
+build/

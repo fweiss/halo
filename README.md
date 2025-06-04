@@ -4,6 +4,7 @@ Explore bare metal Nucleo F429ZI
 ## Setup on WSL
 ``wsl -d cortex``
 ``sudo apt install gcc-arm-none-eabi``
+``sudo apt install cmake``
 ``arm-none-eabi-gcc (15:13.2.rel1-2) 13.2.1 20231009``
 ``sudo apt install stlink-tools``
 
