@@ -1,4 +1,5 @@
 // #include "stm32f4xx.h"
+#include "helpers.hpp"
 
 #define PERIPH_BASE        ((unsigned int)0x40000000)
 #define AHB1PERIPH_BASE    (PERIPH_BASE + 0x00020000)
@@ -32,20 +33,15 @@ int main(void) {
     GPIOB_MODER |= 0x1;  // green LED PB0
     GPIOB_MODER |= 0x1 << 28; // red LED PB14
 
-    // connected to pull up resistor -- when we press button , it goes low
-        //B1 user button is connected to PC13 - i.e. blue button
-      // Enable clock to PC13 i.e. Port C
-      RCC_AHB1ENR |= GPIOCEN;
-      //GPIOC_MODER |=     //Input mode PC13- 13th pin 0
-       // by default pins are input only
-      GPIOC_MODER |=  0;
-
     GPIOB_ODR |= 0x1 << GREEN_LED_PIN;
     GPIOB_ODR |= 0x1 << RED_LED_PIN;
 
+    PortC::clockEnable = true;
+    Button<PortC, Pin13> blueButton;
+    // blueButton::Mode::Input); // PC13 is input
+
     for (;;) {
-        // pressed blue button
-        if ( (GPIOC_IDR & (1<<13)) ) {
+        if (blueButton.pressed) {
             GPIOB_ODR |= 0x1 << FLASH_LED ;
         } else {
             GPIOB_ODR &= ~(0x1 << FLASH_LED) ;
