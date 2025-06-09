@@ -31,3 +31,36 @@ struct Button {
         }
     } pressed;
 };
+
+enum class Port {
+    PortA = 0,
+    PortB,
+    PortC,
+    PortD,
+    PortE,
+    PortF,
+    PortG,
+    PortH
+};
+enum class Pin {
+    Pin7 = 7,
+    Pin14 = 14,
+    Pin28 = 28,
+};
+template<Port portEnum, Pin pinEnum>
+struct DigitalPin {
+    static constexpr uint32_t portIndex = static_cast<uint32_t>(portEnum);
+    static constexpr uint32_t pinIndex = static_cast<uint32_t>(pinEnum);
+
+    constexpr static uint32_t peripheralBase = 0x40020000u; // AHB1 base address
+    constexpr static uint32_t portBase = peripheralBase + (0x0400u * portIndex);
+
+    void operator=(bool value) {
+        constexpr static uint32_t address = portBase + 0x14u; // ODR register address
+        if (value) {
+            *((volatile uint32_t *)address) |= (1 << pinIndex);
+        } else {
+            *((volatile uint32_t *)address) &= ~(1 << pinIndex);
+        }
+    }
+};

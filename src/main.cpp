@@ -28,6 +28,7 @@
 
 int main(void) {
     RCC_AHB1ENR |= GPIOBEN;
+    // PortB.clockEnable = true;
 
     GPIOB_MODER |= 0x4000;  // blue LED PB7
     GPIOB_MODER |= 0x1;  // green LED PB0
@@ -36,15 +37,19 @@ int main(void) {
     GPIOB_ODR |= 0x1 << GREEN_LED_PIN;
     GPIOB_ODR |= 0x1 << RED_LED_PIN;
 
+    DigitalPin<Port::PortB, Pin::Pin7> blueLed;
+
     PortC::clockEnable = true;
     Button<PortC, Pin13> blueButton;
     // blueButton::Mode::Input); // PC13 is input
 
     for (;;) {
         if (blueButton.pressed) {
-            GPIOB_ODR |= 0x1 << FLASH_LED ;
+            // GPIOB_ODR |= 0x1 << FLASH_LED ;
+            blueLed = true;
         } else {
-            GPIOB_ODR &= ~(0x1 << FLASH_LED) ;
+            // GPIOB_ODR &= ~(0x1 << FLASH_LED) ;
+            blueLed = false;
         }
     }
 
