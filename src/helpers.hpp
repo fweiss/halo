@@ -64,3 +64,23 @@ struct DigitalPin {
         }
     }
 };
+
+template<Port port>
+struct PortBlock {
+    constexpr static uint32_t RCC_BASE = 0x40023800u;
+    constexpr static volatile uint32_t address = (RCC_BASE + 0x30u);
+    constexpr static uint32_t enableMask = 0x1u << static_cast<uint32_t>(port);
+    static struct {
+        void operator=(bool onoff) {
+            if (onoff) {
+                *((uint32_t *)address) |= enableMask;
+            } else {
+                *((uint32_t *)address) &= ~enableMask;
+            }
+        }
+    } clockEnable;
+};
+
+struct Peripheral {
+    static PortBlock<Port::PortB> PortBlockB;
+};

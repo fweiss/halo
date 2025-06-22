@@ -35,10 +35,10 @@ Chip id is ``0x0419``. See ``st-info --chipid``
 >``C:/Program Files (x86)/stlink/config/chips: No such file or directory``
 > Copy stlink/config directory.
 
-On Windows, flash as follows:
+### Windows, flash as follows:
 ```
 cd stlink/bin
-st-flash write ../../blinky.bin 0x08000000
+st-flash write ..\..\build\f429-bare.bin 0x8000000
 ```
 
 ## Flash loader run error

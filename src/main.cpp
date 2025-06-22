@@ -27,8 +27,8 @@
 #define FLASH_LED             BLUE_LED_PIN
 
 int main(void) {
-    RCC_AHB1ENR |= GPIOBEN;
-    // PortB.clockEnable = true;
+    // RCC_AHB1ENR |= GPIOBEN;
+    Peripheral::PortBlockB.clockEnable = true;
 
     GPIOB_MODER |= 0x4000;  // blue LED PB7
     GPIOB_MODER |= 0x1;  // green LED PB0
