@@ -1,5 +1,6 @@
 // #include "stm32f4xx.h"
 #include "helpers.hpp"
+#include "halo.hpp"
 
 #define PERIPH_BASE        ((unsigned int)0x40000000)
 #define AHB1PERIPH_BASE    (PERIPH_BASE + 0x00020000)
