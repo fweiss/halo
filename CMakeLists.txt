@@ -34,3 +34,8 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMAND arm-none-eabi-objcopy -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin
     COMMAND arm-none-eabi-objcopy -O ihex   ${PROJECT_NAME}.elf ${PROJECT_NAME}.hex
 )
+
+add_custom_target(dump_asm ALL
+    COMMAND ${CMAKE_C_COMPILER} -S -mcpu=cortex-m4 -mthumb -Os -fverbose-asm -o ${CMAKE_CURRENT_BINARY_DIR}/main.s ${CMAKE_SOURCE_DIR}/src/main.cpp
+    COMMENT "Generating assembly output for main.c"
+)

@@ -71,7 +71,7 @@ struct PortBlock {
     constexpr static volatile uint32_t address = (RCC_BASE + 0x30u);
     constexpr static uint32_t enableMask = 0x1u << static_cast<uint32_t>(port);
     static struct {
-        void operator=(bool onoff) {
+        inline void operator=(bool onoff) {
             if (onoff) {
                 *((uint32_t *)address) |= enableMask;
             } else {

@@ -46,10 +46,8 @@ int main(void) {
 
     for (;;) {
         if (blueButton.pressed) {
-            // GPIOB_ODR |= 0x1 << FLASH_LED ;
             blueLed = true;
         } else {
-            // GPIOB_ODR &= ~(0x1 << FLASH_LED) ;
             blueLed = false;
         }
     }
