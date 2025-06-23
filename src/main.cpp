@@ -28,17 +28,18 @@
 #define FLASH_LED             BLUE_LED_PIN
 
 int main(void) {
-    // RCC_AHB1ENR |= GPIOBEN;
     Peripheral::PortBlockB.clockEnable = true;
 
-    GPIOB_MODER |= 0x4000;  // blue LED PB7
-    GPIOB_MODER |= 0x1;  // green LED PB0
-    GPIOB_MODER |= 0x1 << 28; // red LED PB14
-
-    GPIOB_ODR |= 0x1 << GREEN_LED_PIN;
-    GPIOB_ODR |= 0x1 << RED_LED_PIN;
-
     DigitalPin<Port::PortB, Pin::Pin7> blueLed;
+    blueLed.mode = DigitalPinBase::Mode::Output;
+
+    DigitalPin<Port::PortB, Pin::Pin0> greenLed;
+    greenLed.mode = DigitalPinBase::Mode::Output;
+    greenLed = true;
+
+    DigitalPin<Port::PortB, Pin::Pin14> redLed;
+    redLed.mode = DigitalPinBase::Mode::Output;
+    redLed = true;
 
     PortC::clockEnable = true;
     Button<PortC, Pin13> blueButton;

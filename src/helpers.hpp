@@ -43,12 +43,23 @@ enum class Port {
     PortH
 };
 enum class Pin {
+    Pin0 = 0,
     Pin7 = 7,
     Pin14 = 14,
     Pin28 = 28,
 };
+
+struct DigitalPinBase {
+    enum class Mode {
+        Input,
+        Output,
+        AlternateFunction,
+        Analog
+    };
+};
+
 template<Port portEnum, Pin pinEnum>
-struct DigitalPin {
+struct DigitalPin : DigitalPinBase {
     static constexpr uint32_t portIndex = static_cast<uint32_t>(portEnum);
     static constexpr uint32_t pinIndex = static_cast<uint32_t>(pinEnum);
 
@@ -63,6 +74,15 @@ struct DigitalPin {
             *((volatile uint32_t *)address) &= ~(1 << pinIndex);
         }
     }
+    static struct {
+        void operator=(Mode mode) {
+            constexpr static uint32_t address = portBase + 0x00u; // MODER register address
+            uint32_t moder = *((volatile uint32_t *)address);
+            moder &= ~(0x3u << (pinIndex * 2)); // Clear the mode bits for the pin
+            moder |= (static_cast<uint32_t>(mode) << (pinIndex * 2)); // Set the new mode
+            *((volatile uint32_t *)address) = moder;
+        }
+    } mode;
 };
 
 template<Port port>
