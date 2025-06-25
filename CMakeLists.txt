@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.28.2)
 
 project(f429-bare CXX ASM)
 
-add_executable(${PROJECT_NAME}.elf src/main.cpp src/startup.s)
+set(SOURCES src/main.cpp src/mfs.cpp)
+
+add_executable(${PROJECT_NAME}.elf ${SOURCES} src/startup.s)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -22,7 +24,7 @@ set(CMAKE_LINKER arm-none-eabi-gcc)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostdlib -T../stm32f429.ld")
 
 # set(CPU_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard")
-set(CPU_FLAGS "-mcpu=cortex-m4 -mthumb")
+set(CPU_FLAGS "-mcpu=cortex-m4 -mthumb -fno-exceptions")
 # questionable: -fno-builtin  -ffreestanding
 set(COMMON_FLAGS "${CPU_FLAGS} -Wall -Wextra -Os")
 

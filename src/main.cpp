@@ -1,7 +1,11 @@
 // #include "stm32f4xx.h"
 #include "halo.hpp"
+#include "mfs.hpp"
 
 int main(void) {
+
+    MultiFunctionShield mfs;
+
     using namespace Halo;
 
     Port<PortId::PortB>::clockEnable = true;
@@ -27,6 +31,7 @@ int main(void) {
         } else {
             blueLed = false;
         }
+        mfs.tick();
     }
 
     return 0 ;

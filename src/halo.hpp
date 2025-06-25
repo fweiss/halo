@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdint.h>
 
 namespace Halo {
@@ -34,7 +36,9 @@ struct Port {
 
 enum class Pin {
     Pin0 = 0,
+    Pin5 = 5,
     Pin7 = 7,
+    Pin12 = 12,
     Pin13 = 13,
     Pin14 = 14,
     Pin28 = 28,
@@ -68,7 +72,7 @@ struct DigitalPin : DigitalPinBase {
     }
     static struct {
         operator bool() {
-            constexpr static uint32_t address = portBase + 0x14u; // ODR register address
+            constexpr static uint32_t address = portBase + 0x10u; // IDR register address
             return ((*((volatile uint32_t *)address)) & pinMask) ? true : false;
         }
     } pressed;
@@ -82,6 +86,17 @@ struct DigitalPin : DigitalPinBase {
             *((volatile uint32_t *)address) = moder;
         }
     } mode;
+    static struct {
+        void operator=(bool onoff) {
+            constexpr static uint32_t address = portBase + 0x04u; // OTYPER register address
+            if (onoff) {
+                *((volatile uint32_t *)address) |= pinMask;
+            } else {
+                *((volatile uint32_t *)address) &= ~pinMask;
+            }
+        }
+    } openDrain;
+
 };
 
 };  // namespaceh Halo
