@@ -17,6 +17,16 @@ MultiFunctionShield::MultiFunctionShield() {
     serialDataIndex = 0;
     serialData = 0x1012;
     state = 0;
+
+    // segments are labeled clockwise a-g, 
+    // with a = 0x80, b = 0x40, c = 0x20, d = 0x10, e = 0x08, f = 0x04, g = 0x02, dp = 0x01
+    // segments are active low, so 0xFF is all segments off
+    // digits.segments[0] = 0x81u;
+    // digits.segments[1] = 0x44u;
+    // digits.segments[2] = 0x22u;
+    // digits.segments[3] = 0x11u;
+
+    display = 1234;
 }
 
 // on F429 with default clocks, bit-banged pulse is 312 ns
@@ -24,15 +34,60 @@ MultiFunctionShield::MultiFunctionShield() {
 void MultiFunctionShield ::tick() {
     led1 = button.pressed;
 
-    serialDataInput = serialData & 0x01;
-    shiftClock = true;
-    shiftClock = false;
-    serialData >>= 1;
-    state++;
-    if (state > 0x0F) {
-        state = 0;
-        serialData = 0x80EE; // Reset serial data to a known value
-        latchClock = true;
-        latchClock = false;
+    outputDigit(0);
+    outputDigit(1);
+    outputDigit(2);
+    outputDigit(3);
+}
+
+void MultiFunctionShield::outputDigit(uint8_t digitIndex) {
+    // Ensure digitIndex is within bounds
+    // upper 4 bits select digit
+    // lower 8 bits select segments, but reversed polarity
+    uint16_t parallelData = 0x8000u >> digitIndex;
+    // parallelData |= (~digits.segments[digitIndex]) & 0xFFu;
+    parallelData |= (~display.segments[digitIndex]) & 0xFFu;
+    for (uint8_t i = 0; i < 16; i++) {
+        serialDataInput = parallelData & 0x01;
+        shiftClock = true;
+        shiftClock = false;
+        parallelData >>= 1;
     }
+    latchClock = true;
+    latchClock = false;
+}
+
+void MultiFunctionShield::Display::operator=(uint16_t value) {
+    for (uint8_t i = 0; i < 4; i++) {
+        segments[i] = (value >> (8 * (3 - i))) & 0xFFu;
+    }
+    segments[0] = getSegments((value / 1000) % 10); // thousands
+    segments[1] = getSegments((value / 100) % 10);  // hundreds
+    segments[2] = getSegments((value / 10) % 10);   // tens
+    segments[3] = getSegments(value % 10);          // units
+    // segments[0] = 0x81u; // a
+    // segments[1] = 0x44u; // b
+    // segments[2] = 0x22u; // c
+    // segments[3] = 0x11u; // d
+}
+
+uint8_t MultiFunctionShield::Display::getSegments(uint8_t digitIndex) const {
+    // segments are labeled clockwise a-g, 
+    // with a = 0x80, b = 0x40, c = 0x20, d = 0x10, e = 0x08, f = 0x04, g = 0x02, dp = 0x01
+    static const uint8_t segments[10] = {
+        0b11111100, // 0
+        0b01100000, // 1
+        0b11011010, // 2
+        0b11110010, // 3
+        0b01100110, // 4
+        0b10110110, // 5
+        0b10111110, // 6
+        0b11100000, // 7
+        0b11111110, // 8
+        0b11110110  // 9
+    };
+    if (digitIndex < 10) {
+        return segments[digitIndex];
+    }
+    return 0; // Return 0 for invalid digit index
 }

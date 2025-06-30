@@ -1,7 +1,7 @@
 # Muklti funbction shield
 
 ## TM74HC595
-- Titan Microeletronics
+- [Titan Microeletronics](https://lcsc.com/datasheet/lcsc_datasheet_2410122023_TM-Shenzhen-Titan-Micro-Elec-TM74HC595_C79097.pdf)
 - no max drive on dataasheet
 - Vdd 2.0-5.5 V
 - SDI - 8 - PF12
