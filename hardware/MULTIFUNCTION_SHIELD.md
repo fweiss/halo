@@ -1,4 +1,5 @@
-# Muklti funbction shield
+# Multi function shield
+diyables.io
 
 ## TM74HC595
 - [Titan Microeletronics](https://lcsc.com/datasheet/lcsc_datasheet_2410122023_TM-Shenzhen-Titan-Micro-Elec-TM74HC595_C79097.pdf)
@@ -7,6 +8,9 @@
 - SDI - 8 - PF12
 - SFTCLK - 7 - PF13
 - LCHCLK - 4 - PF14
+
+> Oscilloscope debugging: Use CN12.
+> PF14 on outer edge next to PE12.
 
 ### issues
 Even though the 3 signals generated for the '595 from the F429 are legit, the TM74HC595

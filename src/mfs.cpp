@@ -18,14 +18,6 @@ MultiFunctionShield::MultiFunctionShield() {
     serialData = 0x1012;
     state = 0;
 
-    // segments are labeled clockwise a-g, 
-    // with a = 0x80, b = 0x40, c = 0x20, d = 0x10, e = 0x08, f = 0x04, g = 0x02, dp = 0x01
-    // segments are active low, so 0xFF is all segments off
-    // digits.segments[0] = 0x81u;
-    // digits.segments[1] = 0x44u;
-    // digits.segments[2] = 0x22u;
-    // digits.segments[3] = 0x11u;
-
     display = 1234;
 }
 
@@ -33,6 +25,7 @@ MultiFunctionShield::MultiFunctionShield() {
 // the FM74HC595 shift register allows for up to 24 MHz
 void MultiFunctionShield ::tick() {
     led1 = button.pressed;
+    incrementButton.tick();
 
     outputDigit(0);
     outputDigit(1);
@@ -58,17 +51,10 @@ void MultiFunctionShield::outputDigit(uint8_t digitIndex) {
 }
 
 void MultiFunctionShield::Display::operator=(uint16_t value) {
-    for (uint8_t i = 0; i < 4; i++) {
-        segments[i] = (value >> (8 * (3 - i))) & 0xFFu;
-    }
     segments[0] = getSegments((value / 1000) % 10); // thousands
     segments[1] = getSegments((value / 100) % 10);  // hundreds
     segments[2] = getSegments((value / 10) % 10);   // tens
     segments[3] = getSegments(value % 10);          // units
-    // segments[0] = 0x81u; // a
-    // segments[1] = 0x44u; // b
-    // segments[2] = 0x22u; // c
-    // segments[3] = 0x11u; // d
 }
 
 uint8_t MultiFunctionShield::Display::getSegments(uint8_t digitIndex) const {

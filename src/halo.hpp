@@ -36,6 +36,10 @@ struct Port {
 
 enum class Pin {
     Pin0 = 0,
+    Pin1 = 1,
+    Pin2 = 2,
+    Pin3 = 3,
+    Pin4 = 4,
     Pin5 = 5,
     Pin7 = 7,
     Pin12 = 12,

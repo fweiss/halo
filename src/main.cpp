@@ -23,8 +23,8 @@ int main(void) {
 
     Port<PortId::PortC>::clockEnable = true;
     DigitalPin<PortId::PortC, Pin::Pin13> blueButton;
-    // blueButton::Mode::Input); // PC13 is input
 
+    uint16_t counter = 0;
     for (;;) {
         if (blueButton.pressed) {
             blueLed = true;
@@ -32,6 +32,10 @@ int main(void) {
             blueLed = false;
         }
         mfs.tick();
+        if (mfs.incrementButton.released) {
+            counter += 1;
+        }
+        mfs.display = counter;
     }
 
     return 0 ;

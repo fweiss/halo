@@ -1,13 +1,13 @@
-## f429-bare
-Explore bare metal Nucleo F429ZI
+# f429-bare
+Explore bare metal, C++ HAL for Nucleo F429ZI
 
 ## Setup on WSL
-``wsl -d cortex``
-``sudo apt install gcc-arm-none-eabi``
-``sudo apt install cmake``
-``sudo apt install g++ extra-cmake-modules``
-``arm-none-eabi-gcc (15:13.2.rel1-2) 13.2.1 20231009``
-``sudo apt install stlink-tools``
+- ``wsl -d cortex``
+- ``sudo apt install gcc-arm-none-eabi``
+- ``sudo apt install cmake``
+- ``sudo apt install g++ extra-cmake-modules``
+- ``arm-none-eabi-gcc (15:13.2.rel1-2) 13.2.1 20231009``
+- ``sudo apt install stlink-tools``
 
 ```
 arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -nostdlib -Tstm32f429.ld -o blinky.elf src/startup.s src/main.c
@@ -37,7 +37,7 @@ Chip id is ``0x0419``. See ``st-info --chipid``
 
 ### Windows, flash as follows:
 ```
-cd stlink/bin
+cd stlink\bin
 st-flash write ..\..\build\f429-bare.bin 0x8000000
 ```
 
