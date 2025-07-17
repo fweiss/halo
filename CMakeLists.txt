@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.28.2)
 
+if(NOT DEFINED ENV{CMAKE_TOOLCHAIN_FILE}) 
+  MESSAGE(FATAL_ERROR "You must first execute CMAKE_TOOLCHAIN_FILE=../arm-none-eabi-cxx.cmake")
+endif()
+
 project(f429-bare CXX ASM)
 
 set(SOURCES src/main.cpp src/mfs.cpp)
@@ -12,16 +16,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR cortex-m4)
 
-set(CMAKE_C_COMPILER arm-none-eabi-gcc)
-set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
-set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
+# set(CMAKE_C_COMPILER arm-none-eabi-gcc)
+# set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
+# set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
 
-set(CMAKE_CROSS_COMPILING TRUE)
+# set(CMAKE_CROSS_COMPILING TRUE)
 set(CMAKE_TRY_COMPILE FALSE)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -T/Users/frankw/Projects/Sandbox/halo/stm32f429.ld")
 
-set(CMAKE_LINKER arm-none-eabi-gcc)
-# questionable: --specs=nosys.specs-flto -freestanding
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostdlib -T../stm32f429.ld")
+# set(CMAKE_LINKER arm-none-eabi-gcc)
+# # questionable: --specs=nosys.specs-flto -freestanding
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostdlib -T../stm32f429.ld")
 
 # set(CPU_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard")
 set(CPU_FLAGS "-mcpu=cortex-m4 -mthumb -fno-exceptions")
