@@ -53,6 +53,14 @@ public:
     DigitalPin<PortId::PortF, Pin::Pin13> shiftClock;
     DigitalPin<PortId::PortF, Pin::Pin14> latchClock;
 
+    struct Speaker {
+        DigitalPin<PortId::PortE, Pin::Pin13> buzzerPin;
+        bool state;
+        void squak() {
+            buzzerPin = state;
+            state = !state;
+        }
+    } speaker;
     uint8_t state;
 
     uint16_t serialData;

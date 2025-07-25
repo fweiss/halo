@@ -45,6 +45,7 @@ Recommended to either:
 - TMB12A05
 - piezo? not really, electromagnet
 - 5 V (will it work with 3,3 V?)
+- operating voltage 4-7 V
 - 2300 HZ +/- 300
 - 30 mA
 - active low
