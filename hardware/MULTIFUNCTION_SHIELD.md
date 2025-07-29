@@ -46,8 +46,10 @@ Recommended to either:
 - PWM - D3 - PE13
 
 ## Links and references
-[info on the shield](https://community.st.com/t5/stm32-mcus-products/im-trying-to-control-the-arduino-multifunction-shield-by-using/td-p/56923)
+### [info on the shield](https://community.st.com/t5/stm32-mcus-products/im-trying-to-control-the-arduino-multifunction-shield-by-using/td-p/56923)
 
-[multifunction shield schematic](https://static1.squarespace.com/static/584d41b3f5e2310b396cd953/t/5b2fbfb80e2e7265f3ecfa6d/1529855928655/Multifunction-Shield.pdf)
+### [multifunction shield schematic](https://static1.squarespace.com/static/584d41b3f5e2310b396cd953/t/5b2fbfb80e2e7265f3ecfa6d/1529855928655/Multifunction-Shield.pdf)
 
+### [HCT595 with CMOS input thrsholds](https://www.diodes.com/assets/Datasheets/74HCT595.pdf)
+Sinks or source only 8 mA.
 

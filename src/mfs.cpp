@@ -37,9 +37,11 @@ void MultiFunctionShield::outputDigit(uint8_t digitIndex) {
     // Ensure digitIndex is within bounds
     // upper 4 bits select digit
     // lower 8 bits select segments, but reversed polarity
-    uint16_t parallelData = 0x8000u >> digitIndex;
-    // parallelData |= (~digits.segments[digitIndex]) & 0xFFu;
-    parallelData |= (~display.segments[digitIndex]) & 0xFFu;
+
+    const uint16_t digitSelect = 0x8000u >> digitIndex;
+    const uint16_t segmentBits = (~display.segments[digitIndex]) & 0xFFu; // negate for diodes
+    uint16_t parallelData = digitSelect | segmentBits;
+
     for (uint8_t i = 0; i < 16; i++) {
         serialDataInput = parallelData & 0x01;
         shiftClock = true;
