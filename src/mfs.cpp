@@ -4,6 +4,7 @@ MultiFunctionShield::MultiFunctionShield() {
     using namespace Halo;
     Port<PortId::PortF>::clockEnable = true;
     Port<PortId::PortA>::clockEnable = true;
+    // Port<PortId::PortE>::clockEnable = true;
     
     led1.mode = DigitalPinBase::Mode::Output;
     led1.openDrain = true;
@@ -24,7 +25,10 @@ MultiFunctionShield::MultiFunctionShield() {
 // on F429 with default clocks, bit-banged pulse is 312 ns
 // the FM74HC595 shift register allows for up to 24 MHz
 void MultiFunctionShield ::tick() {
-    led1 = button.pressed;
+    // led1 = button.pressed;
+    if (button.pressed) {
+        speaker.squak();
+    }
     incrementButton.tick();
 
     outputDigit(0);
