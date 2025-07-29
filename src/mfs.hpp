@@ -63,5 +63,6 @@ public:
         uint8_t segments[4];
         void operator=(uint16_t value);
     } display;
+    void displayShift(uint16_t parallelData);
 
 };

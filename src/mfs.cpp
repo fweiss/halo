@@ -42,6 +42,10 @@ void MultiFunctionShield::outputDigit(uint8_t digitIndex) {
     const uint16_t segmentBits = (~display.segments[digitIndex]) & 0xFFu; // negate for diodes
     uint16_t parallelData = digitSelect | segmentBits;
 
+    displayShift(parallelData);
+}
+
+void MultiFunctionShield::displayShift(uint16_t parallelData) {
     for (uint8_t i = 0; i < 16; i++) {
         serialDataInput = parallelData & 0x01;
         shiftClock = true;
